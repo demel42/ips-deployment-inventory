@@ -1,41 +1,48 @@
 {
-    "version": 1,
-    "tstamp": 1705572870,
-    "files": [
-        {
-            "filename": "report_battery-status.php",
-            "location": "Geräte-Status",
-            "name": "Batteriestatus melden"
-        },
-        {
-            "filename": "maintain_events.php",
-            "location": "Geräte-Status",
-            "name": "Events anlegen/löschen"
-        },
-        {
-            "filename": "inventory-helper.php",
-            "location": "Geräte-Status",
-            "name": "Hilfsfunktionen für Inventory"
-        },
-        {
-            "filename": "update_rsssi.php",
-            "location": "Geräte-Status",
-            "name": "RSSSI aktualisieren"
-        },
-        {
-            "filename": "determine_status.php",
-            "location": "Geräte-Status",
-            "name": "Status ermitteln"
-        },
-        {
-            "filename": "inventory-test.php",
-            "location": "Geräte-Status",
-            "name": "Test für Inventory"
-        },
-        {
-            "filename": "report_valve-status.php",
-            "location": "Geräte-Status",
-            "name": "Ventilstatus melden"
-        }
-    ]
+	"version": 1.1,
+	"tstamp": 1705574902,
+	"files": [
+		{
+			"filename": "inventory-helper.php",
+			"location": "Geräte-Status",
+			"name": "Hilfsfunktionen für Inventory",
+			"requires": [ "GLOBAL_HELPER", "VARIABLE_HELPER", "Archive Control", "Räume", "Drinnen", "Draussen", "Räume", "Geräte-Status" ]
+		},
+		{
+			"filename": "maintain_events.php",
+			"location": "Geräte-Status",
+			"name": "Events anlegen/löschen",
+			"requires": [ "INVENTORY_HELPER" ]
+		},
+		{
+			"filename": "determine_status.php",
+			"location": "Geräte-Status",
+			"name": "Status ermitteln",
+			"requires": [ "INVENTORY_HELPER" ]
+		},
+		{
+			"filename": "report_battery-status.php",
+			"location": "Geräte-Status",
+			"name": "Batteriestatus melden",
+			"requires": [ "INVENTORY_HELPER", "NOTICE_RULE_SYSADM" ]
+		},
+		{
+			"filename": "report_valve-status.php",
+			"location": "Geräte-Status",
+			"name": "Ventilstatus melden",
+			"requires": [ "INVENTORY_HELPER", "NOTICE_RULE_SYSADM" ]
+		},
+		{
+			"filename": "update_rsssi.php",
+			"location": "Geräte-Status",
+			"name": "RSSSI aktualisieren",
+			"requires": [ "INVENTORY_HELPER" ]
+		},
+		{
+			"filename": "inventory-test.php",
+			"location": "Geräte-Status",
+			"name": "Test für Inventory",
+			"requires": [ "INVENTORY_HELPER" ]
+		}
+	]
 }
