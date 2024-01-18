@@ -1,0 +1,41 @@
+{
+    "Version": 1,
+    "tstamp": 1705572870,
+    "files": [
+        {
+            "filename": "report_battery-status.php",
+            "location": "Geräte-Status",
+            "name": "Batteriestatus melden"
+        },
+        {
+            "filename": "maintain_events.php",
+            "location": "Geräte-Status",
+            "name": "Events anlegen/löschen"
+        },
+        {
+            "filename": "inventory-helper.php",
+            "location": "Geräte-Status",
+            "name": "Hilfsfunktionen für Inventory"
+        },
+        {
+            "filename": "update_rsssi.php",
+            "location": "Geräte-Status",
+            "name": "RSSSI aktualisieren"
+        },
+        {
+            "filename": "determine_status.php",
+            "location": "Geräte-Status",
+            "name": "Status ermitteln"
+        },
+        {
+            "filename": "inventory-test.php",
+            "location": "Geräte-Status",
+            "name": "Test für Inventory"
+        },
+        {
+            "filename": "report_valve-status.php",
+            "location": "Geräte-Status",
+            "name": "Ventilstatus melden"
+        }
+    ]
+}
