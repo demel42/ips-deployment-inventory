@@ -1,6 +1,6 @@
 {
-	"version": 1.1,
-	"tstamp": 1705574902,
+	"version": 2,
+	"tstamp": 1707312538,
 	"files": [
 		{
 			"filename": "inventory-helper.php",
@@ -43,6 +43,24 @@
 			"location": "Geräte-Status",
 			"name": "Test für Inventory",
 			"requires": [ "INVENTORY_HELPER" ]
+		},
+		{
+			"filename": "smoke-detector-alert.php",
+			"location": "Geräte-Status",
+			"name": "Rauchmelder-Auslösung melden",
+			"requires": [ "INVENTORY_HELPER", "NOTICE_RULE_ALERT" ]
+		},
+		{
+			"filename": "smoke-detector-ack.php",
+			"location": "Geräte-Status",
+			"name": "Rauchmelder-Auslösung quittieren",
+			"requires": [ "INVENTORY_HELPER", "NOTICE_RULE_ALERT" ]
+		},
+		{
+			"filename": "smoke-detector-state.php",
+			"location": "Geräte-Status",
+			"name": "Rauchmelder-Status melden",
+			"requires": [ "INVENTORY_HELPER", "NOTICE_RULE_WARNING" ]
 		}
 	]
 }
