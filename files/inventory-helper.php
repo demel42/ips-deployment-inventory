@@ -411,6 +411,129 @@ function Inventory_Check()
     return $r;
 }
 
+function Inventory_AdjustEvents4SmokeDetector()
+{
+    $scriptID = @IPS_GetObjectIDByName('Rauchmelder-Auslösung melden', GetLocalConfig('Geräte-Status'));
+    if ($scriptID != false) {
+        $varIDs = [];
+
+        $catID = IPS_GetObjectIDByName('HmIP-SWSD', GetLocalConfig('Geräte-Typen'));
+        $objIDs = IPS_GetChildrenIDs($catID);
+        foreach ($objIDs as $objID) {
+            $lnk = IPS_GetLink($objID);
+            $objID = $lnk['TargetID'];
+            $addr = IPS_GetProperty($objID, 'Address');
+            $name = preg_replace('/ \(:[0-9]*\)$/', '', IPS_GetName($objID));
+
+            foreach (['SMOKE_DETECTOR_ALARM_STATUS'] as $ident) {
+                $varID = @IPS_GetObjectIDByIdent($ident, $objID);
+                if ($varID != false) {
+                    $varIDs[] = $varID;
+                }
+            }
+        }
+
+        $script = IPS_GetObject($scriptID);
+
+        $triggerIDs = [];
+        $triggerID2eventID = [];
+        $chldIDs = $script['ChildrenIDs'];
+        foreach ($chldIDs as $chldID) {
+            $chld = IPS_GetObject($chldID);
+            if ($chld['ObjectType'] != OBJECTTYPE_EVENT) {
+                continue;
+            }
+            $event = IPS_GetEvent($chldID);
+            $triggerID = $event['TriggerVariableID'];
+            $triggerIDs[] = $triggerID;
+            $triggerID2eventID[$triggerID] = $chldID;
+        }
+
+        foreach ($varIDs as $varID) {
+            $varIDs[] = $varID;
+            if (in_array($varID, $triggerIDs)) {
+                $eventID = $triggerID2eventID[$varID];
+                echo '  preserve eventID ' . $eventID . ' for varID ' . $varID . PHP_EOL;
+                continue;
+            }
+            $eventID = IPS_CreateEvent(0);
+            IPS_SetParent($eventID, $scriptID);
+            IPS_SetEventTrigger($eventID, 1, $varID);
+            IPS_SetEventAction($eventID, '{7938A5A2-0981-5FE0-BE6C-8AA610D654EB}', []);
+            IPS_SetEventActive($eventID, true);
+            echo '  create eventID ' . $eventID . ' for varID ' . $varID . PHP_EOL;
+        }
+        foreach ($triggerIDs as $triggerID) {
+            if (in_array($triggerID, $varIDs)) {
+                continue;
+            }
+            $eventID = $triggerID2eventID[$triggerID];
+            IPS_DeleteEvent($eventID);
+            echo '  delete eventID ' . $eventID . ' for varID ' . $triggerID . PHP_EOL;
+        }
+    }
+
+    $scriptID = @IPS_GetObjectIDByName('Rauchmelder-Status melden', GetLocalConfig('Geräte-Status'));
+    if ($scriptID != false) {
+        $varIDs = [];
+
+        $catID = IPS_GetObjectIDByName('HmIP-SWSD', GetLocalConfig('Geräte-Typen'));
+        $objIDs = IPS_GetChildrenIDs($catID);
+        foreach ($objIDs as $objID) {
+            $lnk = IPS_GetLink($objID);
+            $objID = $lnk['TargetID'];
+            $addr = IPS_GetProperty($objID, 'Address');
+            $name = preg_replace('/ \(:[0-9]*\)$/', '', IPS_GetName($objID));
+
+            foreach (['ERROR_DEGRADED_CHAMBER'] as $ident) {
+                $varID = @IPS_GetObjectIDByIdent($ident, $objID);
+                if ($varID != false) {
+                    $varIDs[] = $varID;
+                }
+            }
+        }
+
+        $script = IPS_GetObject($scriptID);
+
+        $triggerIDs = [];
+        $triggerID2eventID = [];
+        $chldIDs = $script['ChildrenIDs'];
+        foreach ($chldIDs as $chldID) {
+            $chld = IPS_GetObject($chldID);
+            if ($chld['ObjectType'] != OBJECTTYPE_EVENT) {
+                continue;
+            }
+            $event = IPS_GetEvent($chldID);
+            $triggerID = $event['TriggerVariableID'];
+            $triggerIDs[] = $triggerID;
+            $triggerID2eventID[$triggerID] = $chldID;
+        }
+
+        foreach ($varIDs as $varID) {
+            $varIDs[] = $varID;
+            if (in_array($varID, $triggerIDs)) {
+                $eventID = $triggerID2eventID[$varID];
+                echo '  preserve eventID ' . $eventID . ' for varID ' . $varID . PHP_EOL;
+                continue;
+            }
+            $eventID = IPS_CreateEvent(0);
+            IPS_SetParent($eventID, $scriptID);
+            IPS_SetEventTrigger($eventID, 1, $varID);
+            IPS_SetEventAction($eventID, '{7938A5A2-0981-5FE0-BE6C-8AA610D654EB}', []);
+            IPS_SetEventActive($eventID, true);
+            echo '  create eventID ' . $eventID . ' for varID ' . $varID . PHP_EOL;
+        }
+        foreach ($triggerIDs as $triggerID) {
+            if (in_array($triggerID, $varIDs)) {
+                continue;
+            }
+            $eventID = $triggerID2eventID[$triggerID];
+            IPS_DeleteEvent($eventID);
+            echo '  delete eventID ' . $eventID . ' for varID ' . $triggerID . PHP_EOL;
+        }
+    }
+}
+
 function Inventory_Print($infoList)
 {
     $infos = $infoList['infos'];
@@ -528,7 +651,7 @@ function Inventory_Calculate()
     $varID = @IPS_GetObjectIDByName('Batteriestand zu niedrig', $catID);
     SetValueInteger($varID, $n_lowbat);
 
-    $varID = Variable_Create($catID, '', 'Konfiguration ausstehen', VARIABLETYPE_INTEGER, '', 0, 0);
+    $varID = Variable_Create($catID, '', 'Konfiguration ausstehend', VARIABLETYPE_INTEGER, '', 0, 0);
     SetValueInteger($varID, $n_config_pending);
 
     $varID = Variable_Create($catID, '', 'nicht erreichbar', VARIABLETYPE_INTEGER, '', 0, 0);
