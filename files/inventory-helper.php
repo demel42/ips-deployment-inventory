@@ -324,7 +324,7 @@ function Inventory_Check()
                 ];
 
                 $info['rssi_device'] = $elem;
-                $varIDs[] = $varID;
+                // $varIDs[] = $varID;
             }
             $varID = @IPS_GetObjectIDByIdent('RSSI_PEER', $instID);
             if ($varID != false) {
@@ -340,7 +340,7 @@ function Inventory_Check()
                 ];
 
                 $info['rssi_peer'] = $elem;
-                $varIDs[] = $varID;
+                // $varIDs[] = $varID;
             }
         }
 
